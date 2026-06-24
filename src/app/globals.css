@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0a0a0a;
+  --panel: #0d0d0f;
+  --card: #111113;
+  --border: #1f1f22;
+  --red: #c0392b;
+  --red-bright: #e74c3c;
+  --light: #e8e0d5;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(900px 600px at 12% -8%, rgba(231, 57, 44, 0.12), transparent 60%),
+    radial-gradient(700px 500px at 100% 0%, rgba(114, 9, 183, 0.08), transparent 55%),
+    var(--bg);
+  color: var(--light);
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+}
+
+/* ── Scrollbars ── */
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #2a2a2e transparent;
+}
+.scroll-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: #2a2a2e;
+  border-radius: 8px;
+}
+.scroll-thin::-webkit-scrollbar-thumb:hover {
+  background: #3a3a40;
+}
+
+@layer components {
+  /* Glassmorphism surface used across panels and cards. */
+  .glass {
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  .glass-card {
+    @apply glass rounded-xl;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  }
+  .panel-section {
+    @apply border-b border-white/5;
+  }
+  .field-label {
+    @apply text-[11px] font-medium uppercase tracking-wider text-neutral-400;
+  }
+  .input-base {
+    @apply w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-neutral-100
+      outline-none transition focus:border-akuma-redBright/60 focus:ring-1 focus:ring-akuma-redBright/30;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition active:scale-[0.98];
+  }
+  .btn-primary {
+    @apply btn bg-akuma-red text-white hover:bg-akuma-redBright shadow-glow-sm hover:shadow-glow;
+  }
+  .btn-ghost {
+    @apply btn border border-white/10 bg-white/[0.03] text-neutral-200 hover:bg-white/[0.07] hover:border-white/20;
+  }
+  .btn-sm {
+    @apply px-2 py-1 text-xs;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-md border border-white/10 bg-white/[0.04] px-2 py-1 text-[11px] text-neutral-300;
+  }
+}
+
+/* Transparent checkerboard used behind preview tiles. */
+.checkerboard {
+  background-image:
+    linear-gradient(45deg, #2a2a2e 25%, transparent 25%),
+    linear-gradient(-45deg, #2a2a2e 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #2a2a2e 75%),
+    linear-gradient(-45deg, transparent 75%, #2a2a2e 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+  background-color: #1a1a1d;
+}
+
+/* Range slider — themed to the red accent. */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 4px;
+  background: #2a2a2e;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--red-bright);
+  cursor: pointer;
+  box-shadow: 0 0 0 3px rgba(231, 57, 44, 0.18);
+  transition: transform 0.1s;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border: none;
+  border-radius: 50%;
+  background: var(--red-bright);
+  cursor: pointer;
+}
+
+.font-display {
+  font-family: var(--font-cinzel-decorative), "Cinzel Decorative", serif;
+}

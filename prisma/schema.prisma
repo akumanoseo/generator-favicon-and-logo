@@ -1,0 +1,50 @@
+// Prisma schema for the favicon & logo generator.
+// SQLite keeps the tool fully self-contained — no external database to provision.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./factory.db"
+}
+
+/// A saved generator project (settings snapshot + batch queue).
+model Project {
+  id        String   @id @default(cuid())
+  name      String
+  /// Full serialized project state (editor config, batch items, settings) as JSON string.
+  data      String
+  /// Small SVG/data-uri thumbnail for the project list.
+  thumbnail String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  favicons Favicon[]
+
+  @@index([updatedAt])
+}
+
+/// A generated favicon record — persisted so the uniqueness engine can
+/// avoid repeating signatures across sessions and power batch analytics.
+model Favicon {
+  id          String   @id @default(cuid())
+  brandName   String
+  text        String
+  /// Full FaviconConfig serialized as JSON string.
+  config      String
+  /// Deterministic similarity signature (font|shape|colors|layout buckets).
+  signature   String
+  fontFamily  String
+  primaryColor String
+  shape       String
+  createdAt   DateTime @default(now())
+
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  projectId String?
+
+  @@index([signature])
+  @@index([createdAt])
+  @@index([projectId])
+}
